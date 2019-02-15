@@ -1,0 +1,81 @@
+1  2  3  4  4  4		1  2  3  4  4  4
+5  6  6  6  6  6  		
+7  8  9  10 10 10 
+11 11 12 13 14 15
+16 16 17 17 18 19
+
+
+var copy = [];
+		var clusters = [];
+		var clusterCounter = 1;
+		var numberOfMatches = 0;
+		
+		for(var r = 0; r < rows.length; r++ ){
+			copy[r] = [];
+			clusters[r] = [];
+			
+			for(var c = 0; c < rows[r].length; c++ ){
+				copy[r][c] = game[r][c];
+			}
+		}
+		
+		var clusterFinder = function(r,c,returnR,returnC){
+			var right = false;
+			var left = false;
+			var up = false;
+			var down = false;
+			
+			// If below equals current, place in cluster and move cursor down 
+			if(game[r][c] == game[r+1][c] && copy[r+1][c] > 0){
+				numberOfMatches++;
+				down = true;
+			}
+			// If right equals current, place in cluster and move cursor right
+			if(game[r][c] == game[r][c+1] && copy[r][c+1] > 0){
+				numberOfMatches++;
+				right = true;
+			}
+			// If above equals current, place in cluster and move cursor down 
+			if(game[r][c] == game[r-1][c] && copy[r-1][c] > 0){
+				numberOfMatches++;
+				up = true;
+				
+			}
+			// If left equals current, place in cluster and move cursor down 
+			if(game[r][c] == game[r][c-1] && copy[r][c-1] > 0){
+				numberOfMatches++;
+				left = true;
+			}
+			
+			if(numberOfMatches == 0 && copy[r][c] > 0){
+				clusterCounter++;
+				clusters[r][c] = clusterCounter;
+				copy[r][c] = -1;
+			}
+			
+			else if(numberOfMatches == 1 && copy[r][c] > 0){
+				clusters[r][c] = clusterCounter;
+				
+				// If down is only direction go there
+				if(down == true){
+					clusters[r][c] = clusterCounter;
+					clusterFinder(r+1,c);
+				}
+				// If right is the only direction go there
+				else if(right == true){
+					clusterFinder(r,c+1);
+				}
+				// If up is the only direction, dead end and start new cluster
+				else if(up == true){
+					
+				}
+				else if(left == true){
+				
+				}
+				
+			}
+			
+			else if(numberOfMatches == 2 && copy[r][c] > 0){
+				
+			}
+		}
